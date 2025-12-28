@@ -6,7 +6,7 @@ RUN apt-get update && \
     libcurl4-openssl-dev git ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/10gic/vanitygen-plusplus.git /vanitygen-plusplus
+RUN git clone https://github.com/10gic/vanitygen-plusplus.git --depth 1 /vanitygen-plusplus
 
 WORKDIR /vanitygen-plusplus
 
@@ -23,9 +23,10 @@ RUN apt-get update && \
 
 WORKDIR /opt/vanitygen
 
-COPY --from=builder /vanitygen-plusplus/vanitygen++ ./vanitygen++
-COPY --from=builder /vanitygen-plusplus/oclvanitygen++ ./oclvanitygen++
-COPY --from=builder /vanitygen-plusplus/base58prefix.txt ./base58prefix.txt
+COPY --from=builder /vanitygen-plusplus/vanitygen++ .
+COPY --from=builder /vanitygen-plusplus/oclvanitygen++ .
+COPY --from=builder /vanitygen-plusplus/base58prefix.txt .
+COPY --from=builder /vanitygen-plusplus/calc_addrs.cl .
 
 
 ENTRYPOINT ["./oclvanitygen++"]
